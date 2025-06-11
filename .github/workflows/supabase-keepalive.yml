@@ -28,7 +28,7 @@ jobs:
           const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
           (async () => {
             try {
-              const { error } = await supabase.from('payroll_records').select('*').limit(1);
+              const { error } = await supabase.from('ping_test').select('*').limit(1);
               if (error) throw error;
               console.log('✅ Supabase ping successful');
             } catch (err) {
