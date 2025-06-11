@@ -22,22 +22,22 @@ jobs:
         run: npm install @supabase/supabase-js
 
       - name: Run keep-alive ping
-  run: |
-    node -e "
-    import { createClient } from '@supabase/supabase-js';
-    const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
-    const main = async () => {
-      try {
-        const { error } = await supabase.from('your_table_name').select('*').limit(1);
-        if (error) throw error;
-        console.log('Supabase ping successful');
-      } catch (err) {
-        console.error('Ping failed:', err);
-        process.exit(1);
-      }
-    };
-    main();
-    "
-  env:
-    SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-    SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          node -e "
+          import { createClient } from '@supabase/supabase-js';
+          const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+          const main = async () => {
+            try {
+              const { error } = await supabase.from('your_table_name').select('*').limit(1);
+              if (error) throw error;
+              console.log('Supabase ping successful');
+            } catch (err) {
+              console.error('Ping failed:', err);
+              process.exit(1);
+            }
+          };
+          main();
+          "
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
