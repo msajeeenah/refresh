@@ -2,7 +2,7 @@ name: Keep Supabase Awake
 
 on:
   schedule:
-    - cron: '0 9 * * 1,4'  # At 09:00 UTC every Mon and Thu
+    - cron: '0 9 * * 1,4'  # At 09:00 UTC every Monday and Thursday
   workflow_dispatch:        # Allows manual trigger from GitHub UI
 
 jobs:
@@ -24,19 +24,18 @@ jobs:
       - name: Run keep-alive ping
         run: |
           node -e "
-          import { createClient } from '@supabase/supabase-js';
+          const { createClient } = require('@supabase/supabase-js');
           const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
-          const main = async () => {
+          (async () => {
             try {
-              const { error } = await supabase.from('your_table_name').select('*').limit(1);
+              const { error } = await supabase.from('ping_test').select('*').limit(1);
               if (error) throw error;
-              console.log('Supabase ping successful');
+              console.log('✅ Supabase ping successful');
             } catch (err) {
-              console.error('Ping failed:', err);
+              console.error('❌ Ping failed:', err);
               process.exit(1);
             }
-          };
-          main();
+          })();
           "
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
